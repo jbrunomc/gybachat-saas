@@ -71,6 +71,13 @@ const ContactsReport: React.FC = () => {
 
   // Carregar contatos da API
   const loadContacts = async () => {
+    // Proteção para desenvolvimento
+    if (import.meta.env.DEV) {
+      console.log('🚫 Carregamento de contatos desabilitado em desenvolvimento');
+      setIsLoading(false);
+      return;
+    }
+
     if (!user?.companyId) return;
     
     try {

@@ -79,6 +79,13 @@ const UsersReport: React.FC = () => {
   }, [user?.companyId]);
 
   const loadUsers = async () => {
+    // Proteção para desenvolvimento
+    if (import.meta.env.DEV) {
+      console.log('🚫 Carregamento de usuários para relatório desabilitado em desenvolvimento');
+      setIsLoading(false);
+      return;
+    }
+
     try {
       setIsLoading(true);
       setError(null);

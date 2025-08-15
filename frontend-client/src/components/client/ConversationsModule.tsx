@@ -191,6 +191,13 @@ const ConversationsModule: React.FC = () => {
 
   // Carregar conversas da API
   const loadConversations = async () => {
+    // Proteção para desenvolvimento
+    if (import.meta.env.DEV) {
+      console.log('🚫 Carregamento de conversas desabilitado em desenvolvimento');
+      setIsLoadingConversations(false);
+      return;
+    }
+
     if (!user?.companyId) return;
     
     try {
@@ -220,6 +227,13 @@ const ConversationsModule: React.FC = () => {
 
   // Carregar mensagens da API
   const loadMessages = async (conversationId: string) => {
+    // Proteção para desenvolvimento
+    if (import.meta.env.DEV) {
+      console.log('🚫 Carregamento de mensagens desabilitado em desenvolvimento');
+      setIsLoadingMessages(false);
+      return;
+    }
+
     if (!user?.companyId) return;
     
     try {
@@ -253,6 +267,12 @@ const ConversationsModule: React.FC = () => {
 
   // Carregar tags da API
   const loadTags = async () => {
+    // Proteção para desenvolvimento
+    if (import.meta.env.DEV) {
+      console.log('🚫 Carregamento de tags desabilitado em desenvolvimento');
+      return;
+    }
+
     if (!user?.companyId) return;
     
     try {
@@ -279,6 +299,13 @@ const ConversationsModule: React.FC = () => {
 
   // Enviar mensagem
   const sendMessage = async () => {
+    // Proteção para desenvolvimento
+    if (import.meta.env.DEV) {
+      console.log('🚫 Envio de mensagem desabilitado em desenvolvimento');
+      setMessageInput('');
+      return;
+    }
+
     if (!messageInput.trim() || !selectedConversation || !user?.companyId) return;
     
     try {
@@ -320,6 +347,12 @@ const ConversationsModule: React.FC = () => {
 
   // Função para adicionar tag a uma conversa
   const addTagToConversation = async (conversationId: string, tagName: string) => {
+    // Proteção para desenvolvimento
+    if (import.meta.env.DEV) {
+      console.log('🚫 Adição de tag desabilitada em desenvolvimento');
+      return;
+    }
+
     if (!user?.companyId) return;
     
     try {
@@ -344,6 +377,12 @@ const ConversationsModule: React.FC = () => {
 
   // Função para remover tag de uma conversa
   const removeTagFromConversation = async (conversationId: string, tagName: string) => {
+    // Proteção para desenvolvimento
+    if (import.meta.env.DEV) {
+      console.log('🚫 Remoção de tag desabilitada em desenvolvimento');
+      return;
+    }
+
     if (!user?.companyId) return;
     
     try {
@@ -365,6 +404,14 @@ const ConversationsModule: React.FC = () => {
 
   // Função para criar nova tag
   const createNewTag = async () => {
+    // Proteção para desenvolvimento
+    if (import.meta.env.DEV) {
+      console.log('🚫 Criação de tag desabilitada em desenvolvimento');
+      setNewTag('');
+      setSelectedTagColor('#3B82F6');
+      return;
+    }
+
     if (!newTag.trim() || !user?.companyId) return;
     
     try {

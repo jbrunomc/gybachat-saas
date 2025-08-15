@@ -109,6 +109,13 @@ const QueueReport: React.FC = () => {
 
   // Carregar dados da fila da API
   const loadQueueData = async () => {
+    // Proteção para desenvolvimento
+    if (import.meta.env.DEV) {
+      console.log('🚫 Carregamento de dados da fila desabilitado em desenvolvimento');
+      setIsLoading(false);
+      return;
+    }
+
     if (!user?.companyId) return;
     
     try {
@@ -209,6 +216,12 @@ const QueueReport: React.FC = () => {
 
   // Carregar agentes da API
   const loadAgents = async () => {
+    // Proteção para desenvolvimento
+    if (import.meta.env.DEV) {
+      console.log('🚫 Carregamento de agentes desabilitado em desenvolvimento');
+      return;
+    }
+
     if (!user?.companyId) return;
     
     try {

@@ -1,0 +1,11 @@
+# Allow all crawlers
+User-agent: *
+Allow: /
+
+# Disallow sensitive routes
+Disallow: /master/
+Disallow: /client/
+Disallow: /api/
+
+# Sitemap
+Sitemap: https://gybachat.vercel.app/sitemap.xml

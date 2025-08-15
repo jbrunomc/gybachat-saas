@@ -74,6 +74,13 @@ const ConversationsReport: React.FC = () => {
   }, [user?.companyId, dateRange, filterStatus, filterSource, filterPriority]);
 
   const loadConversations = async () => {
+    // Proteção para desenvolvimento
+    if (import.meta.env.DEV) {
+      console.log('🚫 Carregamento de conversas para relatório desabilitado em desenvolvimento');
+      setIsLoading(false);
+      return;
+    }
+
     try {
       setIsLoading(true);
       setError(null);

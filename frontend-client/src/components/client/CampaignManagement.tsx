@@ -92,6 +92,13 @@ const CampaignManagement: React.FC = () => {
 
   // Carregar campanhas da API
   const loadCampaigns = async () => {
+    // Proteção para desenvolvimento
+    if (import.meta.env.DEV) {
+      console.log('🚫 Carregamento de campanhas desabilitado em desenvolvimento');
+      setIsLoading(false);
+      return;
+    }
+
     if (!user?.companyId) return;
     
     try {

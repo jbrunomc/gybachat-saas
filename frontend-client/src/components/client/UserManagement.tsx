@@ -84,6 +84,13 @@ const UserManagement: React.FC = () => {
 
   // Carregar usuários da API
   const loadUsers = async () => {
+    // Proteção para desenvolvimento
+    if (import.meta.env.DEV) {
+      console.log('🚫 Carregamento de usuários desabilitado em desenvolvimento');
+      setIsLoading(false);
+      return;
+    }
+
     if (!user?.companyId) return;
     
     try {

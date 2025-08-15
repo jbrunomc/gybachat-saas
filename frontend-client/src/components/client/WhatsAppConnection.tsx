@@ -77,6 +77,14 @@ const WhatsAppConnection: React.FC<WhatsAppConnectionProps> = ({ companyId }) =>
 
   // Verificar status da conexão
   const checkConnectionStatus = async () => {
+    // Proteção para desenvolvimento
+    if (import.meta.env.DEV) {
+      console.log('🚫 Verificação de status WhatsApp desabilitada em desenvolvimento');
+      setConnectionStatus('disconnected');
+      setIsLoading(false);
+      return;
+    }
+
     try {
       setIsLoading(true);
       setError(null);
@@ -159,6 +167,12 @@ const WhatsAppConnection: React.FC<WhatsAppConnectionProps> = ({ companyId }) =>
 
   // Iniciar conexão
   const handleConnect = async () => {
+    // Proteção para desenvolvimento
+    if (import.meta.env.DEV) {
+      console.log('🚫 Conexão WhatsApp desabilitada em desenvolvimento');
+      return;
+    }
+
     try {
       setIsLoading(true);
       setError(null);
@@ -186,6 +200,12 @@ const WhatsAppConnection: React.FC<WhatsAppConnectionProps> = ({ companyId }) =>
 
   // Desconectar
   const handleDisconnect = async () => {
+    // Proteção para desenvolvimento
+    if (import.meta.env.DEV) {
+      console.log('🚫 Desconexão WhatsApp desabilitada em desenvolvimento');
+      return;
+    }
+
     try {
       setIsLoading(true);
       setError(null);
@@ -210,6 +230,12 @@ const WhatsAppConnection: React.FC<WhatsAppConnectionProps> = ({ companyId }) =>
 
   // Atualizar QR Code
   const refreshQrCode = async () => {
+    // Proteção para desenvolvimento
+    if (import.meta.env.DEV) {
+      console.log('🚫 Atualização de QR Code desabilitada em desenvolvimento');
+      return;
+    }
+
     try {
       setIsLoading(true);
       setError(null);

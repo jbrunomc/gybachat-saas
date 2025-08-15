@@ -13,6 +13,12 @@ class ApiClient {
     endpoint: string,
     options: RequestInit = {}
   ): Promise<T> {
+    // Proteção para desenvolvimento - não fazer chamadas reais de API
+    if (import.meta.env.DEV) {
+      console.log('🚫 API desabilitada em desenvolvimento:', endpoint);
+      return { success: true, data: [] } as T;
+    }
+
     const { user } = useAuthStore.getState();
     
     const url = `${this.baseURL}/api${endpoint}`;
@@ -418,6 +424,58 @@ class ApiClient {
       method: 'POST',
       body: formData,
       headers: {}, // Remove Content-Type para FormData
+    });
+  }
+
+  // PWA endpoints - PRONTO PARA BACKEND
+  async registerPushSubscription(subscriptionData: {
+    endpoint: string;
+    keys: { p256dh: string; auth: string };
+    userId: string;
+    companyId: string;
+    deviceInfo: any;
+  }) {
+    return this.request<{
+      success: boolean;
+      message: string;
+    }>('/pwa/push-subscription', {
+      method: 'POST',
+      body: JSON.stringify(subscriptionData),
+    });
+  }
+
+  async removePushSubscription(endpoint: string) {
+    return this.request<{
+      success: boolean;
+      message: string;
+    }>('/pwa/push-subscription', {
+      method: 'DELETE',
+      body: JSON.stringify({ endpoint }),
+    });
+  }
+
+  async getVapidPublicKey() {
+    return this.request<{
+      success: boolean;
+      publicKey: string;
+    }>('/pwa/vapid-key');
+  }
+
+  async sendPushNotification(data: {
+    userId?: string;
+    companyId?: string;
+    title: string;
+    body: string;
+    url?: string;
+    urgent?: boolean;
+    data?: any;
+  }) {
+    return this.request<{
+      success: boolean;
+      message: string;
+    }>('/pwa/send-notification', {
+      method: 'POST',
+      body: JSON.stringify(data),
     });
   }
 

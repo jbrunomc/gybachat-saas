@@ -66,6 +66,13 @@ const WhatsAppReport: React.FC = () => {
   }, [user?.companyId]);
 
   const loadSessions = async () => {
+    // Proteção para desenvolvimento
+    if (import.meta.env.DEV) {
+      console.log('🚫 Carregamento de sessões WhatsApp para relatório desabilitado em desenvolvimento');
+      setIsLoading(false);
+      return;
+    }
+
     try {
       setIsLoading(true);
       setError(null);
@@ -97,6 +104,13 @@ const WhatsAppReport: React.FC = () => {
   };
 
   const loadStats = async () => {
+    // Proteção para desenvolvimento
+    if (import.meta.env.DEV) {
+      console.log('🚫 Carregamento de estatísticas WhatsApp desabilitado em desenvolvimento');
+      setIsLoading(false);
+      return;
+    }
+
     try {
       setIsLoading(true);
       

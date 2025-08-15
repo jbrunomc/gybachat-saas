@@ -2,8 +2,9 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import App from './App.tsx';
 import './index.css';
-import { registerServiceWorker } from './lib/serviceWorker.ts';
-import { preloadCriticalImages } from './lib/imageOptimizer.ts';
+import './App.css';
+import { registerServiceWorker } from './lib/serviceWorker';
+import { preloadCriticalImages } from './lib/imageOptimizer';
 
 // Registrar Service Worker para cache offline e melhor performance
 registerServiceWorker();
@@ -13,6 +14,7 @@ preloadCriticalImages([
   // Adicione aqui URLs de imagens críticas que devem ser pré-carregadas
   // Exemplo: logos, backgrounds de login, etc.
 ]);
+
 
 // Adicionar meta tags para PWA
 if (typeof document !== 'undefined') {

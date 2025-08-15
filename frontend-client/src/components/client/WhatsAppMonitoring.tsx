@@ -152,6 +152,13 @@ const WhatsAppMonitoring: React.FC = () => {
   }, [selectedSession, sessions]);
 
   const loadSessions = async () => {
+    // Proteção para desenvolvimento
+    if (import.meta.env.DEV) {
+      console.log('🚫 Carregamento de sessões WhatsApp desabilitado em desenvolvimento');
+      setIsLoading(false);
+      return;
+    }
+
     if (!user?.companyId) return;
     
     try {
@@ -220,6 +227,13 @@ const WhatsAppMonitoring: React.FC = () => {
   };
 
   const loadInstanceMonitoring = async (instanceName: string) => {
+    // Proteção para desenvolvimento
+    if (import.meta.env.DEV) {
+      console.log('🚫 Monitoramento de instância desabilitado em desenvolvimento');
+      setIsLoadingMonitoring(false);
+      return;
+    }
+
     if (!user?.companyId) return;
     
     try {

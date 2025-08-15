@@ -5,6 +5,7 @@ import { useThemeStore } from './stores/themeStore';
 import { prefetchLikelyRoutes } from './lib/preloadRoutes';
 import { isOffline } from './lib/serviceWorker';
 import { initializeSocket } from './lib/socket';
+import UpdatePrompt from './components/ui/UpdatePrompt';
 
 // Master Panel Components
 import MasterLogin from './components/master/MasterLogin';
@@ -13,40 +14,58 @@ import MasterDashboard from './components/master/MasterDashboard';
 // Client Panel Components
 import ClientLogin from './components/client/ClientLogin';
 import ClientDashboard from './components/client/ClientDashboard';
+import WhatsAppConnection from './components/client/WhatsAppConnection';
+import WhatsAppMonitoring from './components/client/WhatsAppMonitoring';
+import ConversationsModule from './components/client/ConversationsModule';
+import TagsManagement from './components/client/TagsManagement';
+import UserManagement from './components/client/UserManagement';
+import CampaignManagement from './components/client/CampaignManagement';
+import QueueManagement from './components/client/QueueManagement';
+import SocialMediaIntegration from './components/client/SocialMediaIntegration';
+import SocialMediaConnection from './components/client/SocialMediaConnection';
+import SocialMediaMonitoring from './components/client/SocialMediaMonitoring';
+
+// Relatórios
+import WhatsAppReport from './components/client/WhatsAppReport';
+import ConversationsReport from './components/client/ConversationsReport';
+import UsersReport from './components/client/UsersReport';
+import ContactsReport from './components/client/ContactsReport';
+import CampaignsReport from './components/client/CampaignsReport';
+import TagsReport from './components/client/TagsReport';
+import QueueReport from './components/client/QueueReport';
+
+// Master Panel Components
+import ThemeSelector from './components/master/ThemeSelector';
+import GlobalSettings from './components/master/GlobalSettings';
+import CompanyManagement from './components/master/CompanyManagement';
 
 // Layout Components
 import MasterLayout from './components/layouts/MasterLayout';
 import ClientLayout from './components/layouts/ClientLayout';
 
-// Lazy-loaded components
-const WhatsAppConnection = React.lazy(() => import('./components/client/WhatsAppConnection'));
-const WhatsAppMonitoring = React.lazy(() => import('./components/client/WhatsAppMonitoring'));
-const ConversationsModule = React.lazy(() => import('./components/client/ConversationsModule'));
-const TagsManagement = React.lazy(() => import('./components/client/TagsManagement'));
-const UserManagement = React.lazy(() => import('./components/client/UserManagement'));
-const CampaignManagement = React.lazy(() => import('./components/client/CampaignManagement'));
-const QueueManagement = React.lazy(() => import('./components/client/QueueManagement'));
-
-// Relatórios
-const WhatsAppReport = React.lazy(() => import('./components/client/WhatsAppReport'));
-const ConversationsReport = React.lazy(() => import('./components/client/ConversationsReport'));
-const UsersReport = React.lazy(() => import('./components/client/UsersReport'));
-const ContactsReport = React.lazy(() => import('./components/client/ContactsReport'));
-const CampaignsReport = React.lazy(() => import('./components/client/CampaignsReport'));
-const TagsReport = React.lazy(() => import('./components/client/TagsReport'));
-const QueueReport = React.lazy(() => import('./components/client/QueueReport'));
-
-// Fallback para componentes lazy-loaded
-const LazyLoadingFallback = () => (
-  <div className="flex items-center justify-center h-full min-h-[300px]">
-    <div className="animate-pulse flex space-x-4">
-      <div className="rounded-full bg-gray-200 h-12 w-12"></div>
-      <div className="flex-1 space-y-4 py-1">
-        <div className="h-4 bg-gray-200 rounded w-3/4"></div>
-        <div className="space-y-2">
-          <div className="h-4 bg-gray-200 rounded"></div>
-          <div className="h-4 bg-gray-200 rounded w-5/6"></div>
-        </div>
+// Placeholder para módulos em desenvolvimento
+const ModulePlaceholder: React.FC<{
+  title: string;
+  description: string;
+  icon: React.ReactNode;
+  features: string[];
+  color: string;
+}> = ({ title, description, icon, features, color }) => (
+  <div className="text-center py-12">
+    <div className="mx-auto mb-4">{icon}</div>
+    <h3 className="text-xl font-semibold text-gray-900 mb-2">{title}</h3>
+    <p className="text-gray-600 mb-6">{description}</p>
+    <div className={`${color} rounded-lg p-6 max-w-2xl mx-auto`}>
+      <p className="text-sm font-semibold mb-4">
+        🚧 <strong>Em desenvolvimento:</strong>
+      </p>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm text-left">
+        {features.map((feature, index) => (
+          <div key={index} className="flex items-center space-x-2">
+            <div className="h-4 w-4 text-green-600">✓</div>
+            <span>{feature}</span>
+          </div>
+        ))}
       </div>
     </div>
   </div>
@@ -135,6 +154,9 @@ function App() {
       <div className="min-h-screen bg-gray-50">
         {offlineMode && <OfflineAlert />}
         
+        {/* Update Prompt */}
+        <UpdatePrompt />
+        
         <Routes>
           {/* Master Panel Routes */}
           <Route path="/master/login" element={
@@ -147,6 +169,9 @@ function App() {
                 <Routes>
                   <Route path="/" element={<MasterDashboard />} />
                   <Route path="/dashboard" element={<MasterDashboard />} />
+                  <Route path="/companies" element={<CompanyManagement />} />
+                  <Route path="/themes" element={<ThemeSelector />} />
+                  <Route path="/settings" element={<GlobalSettings />} />
                 </Routes>
               </MasterLayout>
             ) : (
@@ -165,78 +190,83 @@ function App() {
                 <Routes>
                   <Route path="/" element={<ClientDashboard />} />
                   <Route path="/dashboard" element={<ClientDashboard />} />
-                  <Route path="/whatsapp" element={
-                    <React.Suspense fallback={<LazyLoadingFallback />}>
-                      <WhatsAppConnection companyId={user?.companyId || 'company-1'} />
-                    </React.Suspense>
+                  <Route path="/whatsapp" element={<WhatsAppConnection companyId={user?.companyId || 'company-1'} />} />
+                  <Route path="/whatsapp-monitoring" element={<WhatsAppMonitoring />} />
+                  <Route path="/conversations" element={<ConversationsModule />} />
+                  <Route path="/tags" element={<TagsManagement />} />
+                  <Route path="/users" element={<UserManagement />} />
+                  <Route path="/campaigns" element={<CampaignManagement />} />
+                  <Route path="/queue" element={<QueueManagement />} />
+                  <Route path="/social-media" element={<SocialMediaIntegration />} />
+                  <Route path="/instagram" element={<SocialMediaConnection companyId={user?.companyId || 'company-1'} platform="instagram" />} />
+                  <Route path="/facebook" element={<SocialMediaConnection companyId={user?.companyId || 'company-1'} platform="facebook" />} />
+                  <Route path="/instagram-monitoring" element={<SocialMediaMonitoring platform="instagram" />} />
+                  <Route path="/facebook-monitoring" element={<SocialMediaMonitoring platform="facebook" />} />
+                  
+                  {/* Módulos em desenvolvimento */}
+                  <Route path="/contacts" element={
+                    <ModulePlaceholder
+                      title="Gerenciamento de Contatos"
+                      description="Upload de planilhas e gerenciamento de listas"
+                      icon={<div className="h-16 w-16 text-gray-400 mx-auto">📊</div>}
+                      features={[
+                        'Upload CSV/Excel',
+                        'Validação de números',
+                        'Segmentação avançada',
+                        'Tags personalizadas',
+                        'Histórico de interações',
+                        'Blacklist automática',
+                        'Sincronização CRM',
+                        'Backup automático'
+                      ]}
+                      color="bg-indigo-50"
+                    />
                   } />
-                  <Route path="/whatsapp-monitoring" element={
-                    <React.Suspense fallback={<LazyLoadingFallback />}>
-                      <WhatsAppMonitoring />
-                    </React.Suspense>
+                  <Route path="/automations" element={
+                    <ModulePlaceholder
+                      title="Automações Inteligentes"
+                      description="Fluxos automatizados e chatbots avançados"
+                      icon={<div className="h-16 w-16 text-gray-400 mx-auto">⚡</div>}
+                      features={[
+                        'Triggers personalizados',
+                        'Integração com CRM',
+                        'IA conversacional',
+                        'Workflows visuais',
+                        'Condições complexas',
+                        'Machine Learning',
+                        'API integrations',
+                        'Analytics preditivos'
+                      ]}
+                      color="bg-orange-50"
+                    />
                   } />
-                  <Route path="/conversations" element={
-                    <React.Suspense fallback={<LazyLoadingFallback />}>
-                      <ConversationsModule />
-                    </React.Suspense>
-                  } />
-                  <Route path="/tags" element={
-                    <React.Suspense fallback={<LazyLoadingFallback />}>
-                      <TagsManagement />
-                    </React.Suspense>
-                  } />
-                  <Route path="/users" element={
-                    <React.Suspense fallback={<LazyLoadingFallback />}>
-                      <UserManagement />
-                    </React.Suspense>
-                  } />
-                  <Route path="/campaigns" element={
-                    <React.Suspense fallback={<LazyLoadingFallback />}>
-                      <CampaignManagement />
-                    </React.Suspense>
-                  } />
-                  <Route path="/queue" element={
-                    <React.Suspense fallback={<LazyLoadingFallback />}>
-                      <QueueManagement />
-                    </React.Suspense>
+                  <Route path="/settings" element={
+                    <ModulePlaceholder
+                      title="Configurações da Empresa"
+                      description="Personalize sua experiência na plataforma"
+                      icon={<div className="h-16 w-16 text-gray-400 mx-auto">⚙️</div>}
+                      features={[
+                        'Dados da empresa',
+                        'Configurações de notificação',
+                        'Integrações externas',
+                        'Backup e segurança',
+                        'Personalização visual',
+                        'Webhooks',
+                        'API keys',
+                        'Logs de auditoria'
+                      ]}
+                      color="bg-gray-50"
+                    />
                   } />
                   
                   {/* Rotas de Relatórios */}
-                  <Route path="/whatsapp-report" element={
-                    <React.Suspense fallback={<LazyLoadingFallback />}>
-                      <WhatsAppReport />
-                    </React.Suspense>
-                  } />
-                  <Route path="/conversations-report" element={
-                    <React.Suspense fallback={<LazyLoadingFallback />}>
-                      <ConversationsReport />
-                    </React.Suspense>
-                  } />
-                  <Route path="/users-report" element={
-                    <React.Suspense fallback={<LazyLoadingFallback />}>
-                      <UsersReport />
-                    </React.Suspense>
-                  } />
-                  <Route path="/contacts-report" element={
-                    <React.Suspense fallback={<LazyLoadingFallback />}>
-                      <ContactsReport />
-                    </React.Suspense>
-                  } />
-                  <Route path="/campaigns-report" element={
-                    <React.Suspense fallback={<LazyLoadingFallback />}>
-                      <CampaignsReport />
-                    </React.Suspense>
-                  } />
-                  <Route path="/tags-report" element={
-                    <React.Suspense fallback={<LazyLoadingFallback />}>
-                      <TagsReport />
-                    </React.Suspense>
-                  } />
-                  <Route path="/queue-report" element={
-                    <React.Suspense fallback={<LazyLoadingFallback />}>
-                      <QueueReport />
-                    </React.Suspense>
-                  } />
+                  <Route path="/whatsapp-report" element={<WhatsAppReport />} />
+                  <Route path="/conversations-report" element={<ConversationsReport />} />
+                  <Route path="/users-report" element={<UsersReport />} />
+                  <Route path="/contacts-report" element={<ContactsReport />} />
+                  <Route path="/campaigns-report" element={<CampaignsReport />} />
+                  <Route path="/tags-report" element={<TagsReport />} />
+                  <Route path="/queue-report" element={<QueueReport />} />
                 </Routes>
               </ClientLayout>
             ) : (

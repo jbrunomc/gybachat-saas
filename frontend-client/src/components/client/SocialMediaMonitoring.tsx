@@ -100,6 +100,20 @@ const SocialMediaMonitoring: React.FC<SocialMediaMonitoringProps> = ({ platform 
   }, [autoRefresh, refreshInterval]);
 
   const loadSessions = async () => {
+    // Proteção para desenvolvimento
+    if (import.meta.env.DEV) {
+      console.log('🚫 Carregamento de sessões de redes sociais desabilitado em desenvolvimento');
+      setIsLoading(false);
+      return;
+    }
+
+    // Proteção para desenvolvimento
+    if (import.meta.env.DEV) {
+      console.log('🚫 Monitoramento de instância de redes sociais desabilitado em desenvolvimento');
+      setIsLoadingMonitoring(false);
+      return;
+    }
+
     if (!user?.companyId) return;
     
     try {

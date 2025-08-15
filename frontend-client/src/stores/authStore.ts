@@ -140,6 +140,13 @@ export const useAuthStore = create<AuthState>()(
           
           // Tentar login real via API
           try {
+            // Proteção para desenvolvimento - não fazer login via API
+            if (import.meta.env.DEV) {
+              console.log('🚫 Login via API desabilitado em desenvolvimento');
+              set({ isLoading: false });
+              return false;
+            }
+
             const response = await api.login(email, password, type);
             
             if (response.success && response.token && response.user) {

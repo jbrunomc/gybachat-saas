@@ -97,6 +97,13 @@ const TagsManagement: React.FC = () => {
 
   // Carregar tags da API
   const loadTags = async () => {
+    // Proteção para desenvolvimento
+    if (import.meta.env.DEV) {
+      console.log('🚫 Carregamento de tags desabilitado em desenvolvimento');
+      setIsLoading(false);
+      return;
+    }
+
     if (!user?.companyId) return;
     
     try {
@@ -215,6 +222,18 @@ const TagsManagement: React.FC = () => {
 
   // Função para criar nova tag
   const createNewTag = async () => {
+    // Proteção para desenvolvimento
+    if (import.meta.env.DEV) {
+      console.log('🚫 Criação de tag desabilitada em desenvolvimento');
+      setNewTagName('');
+      setNewTagDescription('');
+      setNewTagColor('#3B82F6');
+      setNewTagCategory('custom');
+      setShowCreateModal(false);
+      setIsLoading(false);
+      return;
+    }
+
     if (!newTagName.trim() || !user?.companyId) return;
     
     try {
@@ -251,6 +270,19 @@ const TagsManagement: React.FC = () => {
 
   // Função para editar tag
   const saveEditedTag = async () => {
+    // Proteção para desenvolvimento
+    if (import.meta.env.DEV) {
+      console.log('🚫 Edição de tag desabilitada em desenvolvimento');
+      setEditingTag(null);
+      setNewTagName('');
+      setNewTagDescription('');
+      setNewTagColor('#3B82F6');
+      setNewTagCategory('custom');
+      setShowCreateModal(false);
+      setIsLoading(false);
+      return;
+    }
+
     if (!editingTag || !newTagName.trim() || !user?.companyId) return;
     
     try {
@@ -287,6 +319,12 @@ const TagsManagement: React.FC = () => {
 
   // Função para deletar tag
   const deleteTag = async (tagId: string) => {
+    // Proteção para desenvolvimento
+    if (import.meta.env.DEV) {
+      console.log('🚫 Exclusão de tag desabilitada em desenvolvimento');
+      return;
+    }
+
     if (!user?.companyId) return;
     
     if (window.confirm('Tem certeza que deseja excluir esta tag?')) {
@@ -310,6 +348,13 @@ const TagsManagement: React.FC = () => {
 
   // Função para duplicar tag
   const duplicateTag = async (tag: TagTemplate) => {
+    // Proteção para desenvolvimento
+    if (import.meta.env.DEV) {
+      console.log('🚫 Duplicação de tag desabilitada em desenvolvimento');
+      setIsLoading(false);
+      return;
+    }
+
     if (!user?.companyId) return;
     
     try {
@@ -359,6 +404,14 @@ const TagsManagement: React.FC = () => {
 
   // Função para ações em lote
   const bulkDeleteTags = async () => {
+    // Proteção para desenvolvimento
+    if (import.meta.env.DEV) {
+      console.log('🚫 Exclusão em lote de tags desabilitada em desenvolvimento');
+      setSelectedTags([]);
+      setIsLoading(false);
+      return;
+    }
+
     if (!user?.companyId) return;
     
     if (window.confirm(`Tem certeza que deseja excluir ${selectedTags.length} tags selecionadas?`)) {

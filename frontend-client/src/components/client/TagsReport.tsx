@@ -61,6 +61,13 @@ const TagsReport: React.FC = () => {
 
   // Carregar tags da API
   const loadTags = async () => {
+    // Proteção para desenvolvimento
+    if (import.meta.env.DEV) {
+      console.log('🚫 Carregamento de tags para relatório desabilitado em desenvolvimento');
+      setIsLoading(false);
+      return;
+    }
+
     if (!user?.companyId) return;
     
     try {

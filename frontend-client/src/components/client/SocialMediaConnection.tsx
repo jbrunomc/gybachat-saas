@@ -53,6 +53,14 @@ const SocialMediaConnection: React.FC<SocialMediaConnectionProps> = ({ companyId
 
   // Verificar status da conexão
   const checkConnectionStatus = async () => {
+    // Proteção para desenvolvimento
+    if (import.meta.env.DEV) {
+      console.log('🚫 Verificação de status de redes sociais desabilitada em desenvolvimento');
+      setConnectionStatus('disconnected');
+      setIsLoading(false);
+      return;
+    }
+
     try {
       setIsLoading(true);
       setError(null);
@@ -81,6 +89,13 @@ const SocialMediaConnection: React.FC<SocialMediaConnectionProps> = ({ companyId
 
   // Submeter código de autenticação
   const handleSubmitAuth = async () => {
+    // Proteção para desenvolvimento
+    if (import.meta.env.DEV) {
+      console.log('🚫 Autenticação de redes sociais desabilitada em desenvolvimento');
+      setIsLoading(false);
+      return;
+    }
+
     try {
       setIsLoading(true);
       setError(null);
@@ -121,6 +136,13 @@ const SocialMediaConnection: React.FC<SocialMediaConnectionProps> = ({ companyId
 
   // Desconectar
   const handleDisconnect = async () => {
+    // Proteção para desenvolvimento
+    if (import.meta.env.DEV) {
+      console.log('🚫 Desconexão de redes sociais desabilitada em desenvolvimento');
+      setIsLoading(false);
+      return;
+    }
+
     try {
       setIsLoading(true);
       setError(null);

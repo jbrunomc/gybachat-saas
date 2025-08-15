@@ -16,6 +16,12 @@ class SocketManager {
   private reconnectDelay = 1000;
 
   connect(token: string, companyId: string, userId: string, role: string) {
+    // Proteção para desenvolvimento - não conectar socket
+    if (import.meta.env.DEV) {
+      console.log('🚫 Socket desabilitado em desenvolvimento');
+      return null;
+    }
+
     if (this.socket?.connected) {
       return this.socket;
     }
@@ -204,6 +210,12 @@ export const socketManager = new SocketManager();
 
 // Inicializar socket quando o usuário fizer login
 export const initializeSocket = () => {
+  // Proteção para desenvolvimento
+  if (import.meta.env.DEV) {
+    console.log('🚫 Inicialização do Socket desabilitada em desenvolvimento');
+    return;
+  }
+
   const { user } = useAuthStore.getState();
   
   if (user && user.token) {
